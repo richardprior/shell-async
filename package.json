@@ -1,0 +1,31 @@
+{
+  "name": "shell-async",
+  "version": "0.0.1",
+  "description": "Cross-platform shell commands using async/await",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/richardprior/shell-async"
+  },
+  "typings": "dist/shell.d.ts",
+  "main": "dist/shell.js",
+  "scripts": {
+    "prepublish": "tsc"
+  },
+  "author": "Prior Development Ltd",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "glob-base": "^0.3.0",
+    "globby": "^6.1.0",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.5.4"
+  },
+  "devDependencies": {
+  	"@types/bluebird": "^3.0.37",
+    "@types/node": "^7.0.5",
+    "@types/bluebird-global": "^3.0.1",
+    "@types/mkdirp": "^0.3.29",
+    "@types/rimraf": "0.0.28",
+    "typescript": "^2.1.6"
+  }
+}
