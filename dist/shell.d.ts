@@ -1,3 +1,5 @@
+/// <reference types="bluebird" />
+import * as Bluebird from 'bluebird';
 export interface ICopyOpts {
     filters?: Array<string | RegExp>;
     ignoreError?: boolean;
@@ -34,7 +36,12 @@ export interface IExecOpts {
     exitCodes?: number[];
     shell?: boolean;
 }
-export declare const exec: (cmd: string, args?: string[], opts?: IExecOpts) => Promise<{}>;
+export interface IExecReturn {
+    code: number;
+    stdout: string;
+    stderr: string;
+}
+export declare const exec: (cmd: string, args?: string[], opts?: IExecOpts) => Bluebird<IExecReturn>;
 export declare const cd: (dir: string) => Promise<void>;
 export declare const sed: (pattern: RegExp, replacement: string, filename: string) => Promise<void>;
 export declare const cat: (filename: string) => Promise<string>;

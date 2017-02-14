@@ -345,9 +345,15 @@ export interface IExecOpts {
 	shell?: boolean;
 }
 
+export interface IExecReturn {
+	code: number;
+	stdout: string;
+	stderr: string;
+}
+
 const defaultExecOpts: IExecOpts = { ignoreError: false, exitCodes: [0], shell: true };
 
-export const exec = (cmd: string, args: string[] = [], opts: IExecOpts = {}) => {
+export const exec = (cmd: string, args: string[] = [], opts: IExecOpts = {}): Bluebird<IExecReturn> => {
 	let stdout = '';
 	let stderr = '';
 
