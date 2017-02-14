@@ -348,6 +348,9 @@ export interface IExecOpts {
 const defaultExecOpts: IExecOpts = { ignoreError: false, exitCodes: [0], shell: true };
 
 export const exec = (cmd: string, args: string[] = [], opts: IExecOpts = {}) => {
+	let stdout = '';
+	let stderr = '';
+
 	return new Promise((resolve, reject) => {
 		opts = { ...defaultExecOpts, ...opts };
 		opts.exitCodes = opts.exitCodes || [];
@@ -361,10 +364,12 @@ export const exec = (cmd: string, args: string[] = [], opts: IExecOpts = {}) => 
 		});
 
 		p.stdout.on('data', (data) => {
+			stdout += data.toString();
 			process.stdout.write(data);
 		});
 
 		p.stderr.on('data', (data) => {
+			stderr += data.toString();
 			process.stderr.write(data);
 		});
 
@@ -372,7 +377,11 @@ export const exec = (cmd: string, args: string[] = [], opts: IExecOpts = {}) => 
 			const msg = `exec: failed to launch command: ${cmd} (${err.message})`;
 			if (opts.ignoreError) {
 				console.error(msg)
-				resolve(255);
+				resolve({
+					code: 255,
+					stdout,
+					stderr,
+				});
 			} else {
 				reject(new Error(msg));
 			}
@@ -383,14 +392,22 @@ export const exec = (cmd: string, args: string[] = [], opts: IExecOpts = {}) => 
 				const msg = `exec: unexpected exit code: ${code}`;
 				if (opts.ignoreError) {
 					console.error(msg)
-					resolve(code);
+					resolve({
+						code,
+						stdout,
+						stderr,
+					});
 				} else {
 					let err: any = new Error(msg);
 					err.code = code;
 					reject(err);
 				}
 			} else {
-				resolve(code);
+				resolve({
+					code,
+					stdout,
+					stderr,
+				});
 			}
 		});
 	});
