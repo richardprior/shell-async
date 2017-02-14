@@ -307,6 +307,8 @@ exports.rm = (a, b, c) => __awaiter(this, void 0, void 0, function* () {
 });
 const defaultExecOpts = { ignoreError: false, exitCodes: [0], shell: true };
 exports.exec = (cmd, args = [], opts = {}) => {
+    let stdout = '';
+    let stderr = '';
     return new Promise((resolve, reject) => {
         opts = __assign({}, defaultExecOpts, opts);
         opts.exitCodes = opts.exitCodes || [];
@@ -317,16 +319,22 @@ exports.exec = (cmd, args = [], opts = {}) => {
             shell: opts.shell,
         });
         p.stdout.on('data', (data) => {
+            stdout += data.toString();
             process.stdout.write(data);
         });
         p.stderr.on('data', (data) => {
+            stderr += data.toString();
             process.stderr.write(data);
         });
         p.on('error', (err) => {
             const msg = `exec: failed to launch command: ${cmd} (${err.message})`;
             if (opts.ignoreError) {
                 console.error(msg);
-                resolve(255);
+                resolve({
+                    code: 255,
+                    stdout,
+                    stderr,
+                });
             }
             else {
                 reject(new Error(msg));
@@ -337,7 +345,11 @@ exports.exec = (cmd, args = [], opts = {}) => {
                 const msg = `exec: unexpected exit code: ${code}`;
                 if (opts.ignoreError) {
                     console.error(msg);
-                    resolve(code);
+                    resolve({
+                        code,
+                        stdout,
+                        stderr,
+                    });
                 }
                 else {
                     let err = new Error(msg);
@@ -346,7 +358,11 @@ exports.exec = (cmd, args = [], opts = {}) => {
                 }
             }
             else {
-                resolve(code);
+                resolve({
+                    code,
+                    stdout,
+                    stderr,
+                });
             }
         });
     });
