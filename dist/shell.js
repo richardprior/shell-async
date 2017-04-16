@@ -305,7 +305,7 @@ exports.rm = (a, b, c) => __awaiter(this, void 0, void 0, function* () {
         handleErr(`Error removing file/directory: ${dest} (${err.message})`, opts.ignoreError);
     }
 });
-const defaultExecOpts = { ignoreError: false, exitCodes: [0], shell: true };
+const defaultExecOpts = { ignoreError: false, exitCodes: [0], shell: true, silent: false };
 exports.exec = (cmd, args = [], opts = {}) => {
     let stdout = '';
     let stderr = '';
@@ -320,11 +320,15 @@ exports.exec = (cmd, args = [], opts = {}) => {
         });
         p.stdout.on('data', (data) => {
             stdout += data.toString();
-            process.stdout.write(data);
+            if (!opts.silent) {
+                process.stdout.write(data);
+            }
         });
         p.stderr.on('data', (data) => {
             stderr += data.toString();
-            process.stderr.write(data);
+            if (!opts.silent) {
+                process.stderr.write(data);
+            }
         });
         p.on('error', (err) => {
             const msg = `exec: failed to launch command: ${cmd} (${err.message})`;

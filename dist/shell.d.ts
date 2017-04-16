@@ -35,6 +35,7 @@ export interface IExecOpts {
     env?: any;
     exitCodes?: number[];
     shell?: boolean;
+    silent?: boolean;
 }
 export interface IExecReturn {
     code: number;

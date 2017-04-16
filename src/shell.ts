@@ -343,6 +343,7 @@ export interface IExecOpts {
 	env?: any;
 	exitCodes?: number[];
 	shell?: boolean;
+	silent?: boolean;
 }
 
 export interface IExecReturn {
@@ -351,7 +352,7 @@ export interface IExecReturn {
 	stderr: string;
 }
 
-const defaultExecOpts: IExecOpts = { ignoreError: false, exitCodes: [0], shell: true };
+const defaultExecOpts: IExecOpts = { ignoreError: false, exitCodes: [0], shell: true, silent: false };
 
 export const exec = (cmd: string, args: string[] = [], opts: IExecOpts = {}): Bluebird<IExecReturn> => {
 	let stdout = '';
@@ -371,12 +372,16 @@ export const exec = (cmd: string, args: string[] = [], opts: IExecOpts = {}): Bl
 
 		p.stdout.on('data', (data) => {
 			stdout += data.toString();
-			process.stdout.write(data);
+			if (!opts.silent) {
+				process.stdout.write(data);
+			}
 		});
 
 		p.stderr.on('data', (data) => {
 			stderr += data.toString();
-			process.stderr.write(data);
+			if (!opts.silent) {
+				process.stderr.write(data);
+			}
 		});
 
 		p.on('error', (err) => {
