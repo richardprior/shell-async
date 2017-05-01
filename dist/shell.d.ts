@@ -47,5 +47,5 @@ export declare const cd: (dir: string) => Promise<void>;
 export declare const sed: (pattern: RegExp, replacement: string, filename: string) => Promise<void>;
 export declare const cat: (filename: string) => Promise<string>;
 export declare const downloadFile: (uri: string, filename: string) => Promise<{}>;
-export declare const test: (modifierStr: string, filename: string) => Promise<any>;
+export declare const test: (modifierStr: string, filename: string) => Promise<boolean>;
 export declare const mv: (source: string, dest: string) => Promise<void>;

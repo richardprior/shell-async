@@ -11,10 +11,11 @@
 		"outDir": "dist"
 	},
 	"files": [
-		"src/shell.ts"
+		"src/index.ts"
 	],
 	"exclude": [
-		"node_modules"
+		"node_modules",
+		"dist"
 	],
 	"compileOnSave": false
 }

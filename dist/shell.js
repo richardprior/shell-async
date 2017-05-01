@@ -1,12 +1,4 @@
 'use strict';
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -15,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const fs = require("fs");
 const _mkdirp = require("mkdirp");
@@ -85,7 +78,7 @@ const copyFile = (source, dest, overwrite) => __awaiter(this, void 0, void 0, fu
 });
 const defaultCopyOpts = { filters: null, ignoreError: false };
 const parseModifiers = (modifiers, dict, defaults = {}) => {
-    let ret = __assign({}, defaults);
+    let ret = Object.assign({}, defaults);
     modifiers = modifiers.replace(/-/g, '').replace(/ /g, '');
     for (let i = 0; i < modifiers.length; i++) {
         const c = modifiers[i];
@@ -122,7 +115,7 @@ exports.cp = (a, b, c, d) => __awaiter(this, void 0, void 0, function* () {
         dest = c;
         opts = d || {};
     }
-    opts = __assign({}, defaultCopyOpts, opts);
+    opts = Object.assign({}, defaultCopyOpts, opts);
     const modifiers = parseModifiers(modifierStr, {
         'r': 'recursive',
         'f': 'force',
@@ -241,7 +234,7 @@ exports.mkdir = (a, b, c) => __awaiter(this, void 0, void 0, function* () {
         dest = a;
         opts = b || {};
     }
-    opts = __assign({}, defaultMkdirOpts, opts);
+    opts = Object.assign({}, defaultMkdirOpts, opts);
     const modifiers = parseModifiers(modifierStr, {
         'p': 'parents',
     }, {
@@ -285,7 +278,7 @@ exports.rm = (a, b, c) => __awaiter(this, void 0, void 0, function* () {
         dest = a;
         opts = b || {};
     }
-    opts = __assign({}, defaultRmOpts, opts);
+    opts = Object.assign({}, defaultRmOpts, opts);
     const modifiers = parseModifiers(modifierStr, {
         'r': 'recursive',
         'f': 'force',
@@ -310,7 +303,7 @@ exports.exec = (cmd, args = [], opts = {}) => {
     let stdout = '';
     let stderr = '';
     return new Promise((resolve, reject) => {
-        opts = __assign({}, defaultExecOpts, opts);
+        opts = Object.assign({}, defaultExecOpts, opts);
         opts.exitCodes = opts.exitCodes || [];
         console.log(`exec: command: ${cmd}, args: ${args.join(' ')}`);
         const p = spawn(cmd, args, {
